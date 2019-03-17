@@ -16,9 +16,10 @@
     	line-height: 50px;
     	text-align: center;
     	background-color: #79C48C;
-    	color: #fff;
+    	color: balck;
     	border: 5px solid black;
     	margin-bottom: 15px;
+    	font-size: 50px;
 	}
   </style>
 </head>
@@ -100,9 +101,9 @@ layui.use(['layer', 'form'], function(){
 
   //监听打印预览
   form.on('submit(preview)', function(data){
-    layer.alert(JSON.stringify(data.field), {
-      title: '最终的提交信息'
-    })
+    // layer.alert(JSON.stringify(data.field), {
+    //   title: '最终的提交信息'
+    // })
 
     var allname_arr = getallname(data.field.multiname)
     let cishu = data.field.cishu,
@@ -129,19 +130,23 @@ layui.use(['layer', 'form'], function(){
 	    $("#printcontent").append(str);
 
     }
-    console.log($('.printcontentdemo').attr("class"))
-    return false
-    $('.printcontentdemo').style.cssText='width:600px;height:250px;border:1px red solid;';
-    //Preview()return false
+    $('.printcontent').trigger('create')
+    // console.log($('.printcontent').trigger('create'))
+    // return false
+    $('.printcontentdemo').css('width',chang)
+    $('.printcontentdemo').css('height',kuan)
+    $('.printcontentdemo').css('margin','5px auto')
+
+    Preview()//return false
     return false;
   });
  
-  layer.msg('Hello World');
+  //layer.msg('Hello World');
 });
 
 		//打印预览
         function Preview() {
-            $("#printContent").printThis({
+            $(".printcontentdemo").printThis({
                 debug: false,
                 importCSS: true,
                 importStyle: true,
