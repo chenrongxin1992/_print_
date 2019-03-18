@@ -6,26 +6,42 @@
   <title>座位牌打印</title>
   <link rel="shortcut icon" href="./favicon.ico">
   <link rel="stylesheet" href="./css/layui.css">
+  <link rel="stylesheet" href="./css/modules/layui-icon-extend/iconfont.css">
+
   <style type="text/css">
 	.h1title{
-		line-height: 50px;
+		font-size: 35px;
+		line-height: 60px;
 		text-align: center;
+		color: #950040;
+		margin:10px auto;
 	}
 	.printcontentdemo{
-		padding: 10px;
-    	line-height: 50px;
+    	font-family: STXinwei;
     	text-align: center;
     	background-color: #79C48C;
-    	color: balck;
-    	border: 5px solid black;
-    	margin-bottom: 15px;
-    	font-size: 50px;
+    	/*border: 5px solid black;*/
+    	font-size: 120px;
+    	line-height: 74mm;
+    	box-sizing: border-box;
+    	border-bottom: 1px solid black;
+	}
+	.layui-elem-quote{
+		border-left: 5px solid #950040;
+	}
+	
+	.layui-btn{
+		background-color:#950040;
+	}
+	@media print {
+	  @page {
+	    margin: -15mm; 
+	  }
 	}
   </style>
 </head>
 <body>
  
-<!-- 你的HTML代码 -->
 	<div class="layui-container">  
 	  <h1 class="h1title">深圳大学校长办公室座位牌打印系统</h1>
 
@@ -44,7 +60,7 @@
 		<div class="layui-form-item">
 		    <label class="layui-form-label">重复次数</label>
 		    <div class="layui-input-inline">
-		      <select name="cishu">
+		      <select name="cishu" lay-filter="cishu">
 		        <option value="1">1</option>
 		        <option value="2" selected="">2</option>
 		        <option value="3">3</option>
@@ -54,19 +70,17 @@
 
 			<label class="layui-form-label">规格</label>
 		    <div class="layui-input-inline">
-		      <select name="type">
-		        <option value="100">100</option>
-		        <option value="200" selected="">200</option>
-		        <option value="300">300</option>
-		        <option value="400">400</option>
+		      <select name="type" lay-filter="type">
+		        <option value="150*297" selected="">150*297(校办纸)</option>
+		        <option value="210*297">210*297(A4纸)</option>
 		      </select>
 		    </div>
 		</div>
 
 		<div class="layui-form-item">
 		    <div class="layui-input-block">
-		      <button class="layui-btn" lay-submit="" lay-filter="preview">预览</button>
-		      <button class="layui-btn" lay-submit="" lay-filter="print">打印</button>
+		      <button class="layui-btn" lay-submit="" lay-filter="preview"><i class="iconfont layui-extendyulan"></i> 预览</button>
+		      <button class="layui-btn" lay-submit="" lay-filter="print"><i class="iconfont layui-extenddayin"></i> 打印</button>
 		    </div>
 	  	</div>
 	  </form>
@@ -74,6 +88,11 @@
 	  <div id="printcontent">
 	  	
 	  </div>
+
+	  <hr style="height:1px;border:none;border-top:1px dashed #950040;">
+	  <footer style="text-align: center;">
+	    <p class="text-center" style="color: #950040;">2019 &copy; SZU</p>
+	  </footer>
 	</div>
 
 <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -85,7 +104,6 @@
 <script src="./js/layui.js"></script>
 <script src="./js/printThis.js"></script>
 <script>
-//一般直接写在一个js文件中
 layui.use(['layer', 'form'], function(){
   var layer = layui.layer
   ,form = layui.form;
@@ -98,13 +116,20 @@ layui.use(['layer', 'form'], function(){
       }
     }
   });
-
-  //监听打印预览
+  form.on('select(cishu)', function(data){
+  	console.log(data)
+  	$('#printcontent').empty()
+  })
+  form.on('select(type)', function(data){
+  	console.log(data)
+  	$('#printcontent').empty()
+  })
+  //打印预览
   form.on('submit(preview)', function(data){
-    // layer.alert(JSON.stringify(data.field), {
-    //   title: '最终的提交信息'
-    // })
 
+  	if($('.printcontentdemo')){
+  		$('#printcontent').empty()
+  	}
     var allname_arr = getallname(data.field.multiname)
     let cishu = data.field.cishu,
     	guige = (data.field.type).split('*')
@@ -131,55 +156,80 @@ layui.use(['layer', 'form'], function(){
 
     }
     $('.printcontent').trigger('create')
-    // console.log($('.printcontent').trigger('create'))
-    // return false
-    $('.printcontentdemo').css('width',chang)
-    $('.printcontentdemo').css('height',kuan)
-    $('.printcontentdemo').css('margin','5px auto')
-
-    Preview()//return false
-    return false;
+    $('.printcontentdemo').css('width',chang+'mm')
+    $('.printcontentdemo').css('height',74+'mm')
+    $('.printcontentdemo').css('margin','0px auto')
+    return false
   });
- 
-  //layer.msg('Hello World');
+
+  form.on('submit(print)', function(data){
+  	if($('.printcontentdemo')){
+  		$('#printcontent').empty()
+  	}
+  	var allname_arr = getallname(data.field.multiname)
+    let cishu = data.field.cishu,
+    	guige = (data.field.type).split('*')
+    let chang = guige[0],
+    	kuan = guige[1]
+    console.log(allname_arr)
+    console.log('总共输入',allname_arr.length,'个姓名')
+    console.log('重复次数',data.field.cishu)
+    console.log('规格',data.field.type)
+
+    //生成要打印的内容,一个名字一行
+    let finalarr = new Array()
+    for(let i=0;i<allname_arr.length;i++){
+    	for(let j=0;j<cishu;j++){
+    		finalarr.push(allname_arr[i])
+    	}
+    }
+    console.log('finalarr',finalarr)
+    
+    for(let i=0;i<finalarr.length;i++){
+    	let str = "<div class='layui-row'><div class='layui-col-lg12'>"+
+    	"<div class='printcontentdemo'>"+finalarr[i]+"</div></div></div>"
+	    $("#printcontent").append(str);
+
+    }
+    $('.printcontent').trigger('create')
+    $('.printcontentdemo').css('width',chang+'mm')
+    $('.printcontentdemo').css('height',74+'mm')
+    $('.printcontentdemo').css('margin','0px auto')
+	Preview()
+	return false
+  })
 });
 
-		//打印预览
-        function Preview() {
-            $(".printcontentdemo").printThis({
-                debug: false,
-                importCSS: true,
-                importStyle: true,
-                printContainer: true,
-                //loadCSS: "/Content/Themes/Default/style.css",
-                pageTitle: "通知公告",
-                removeInline: false,
-                printDelay: 333,
-                header: null,
-                formValues: true
-            });
-        };
+    function Preview() {
+        $(".printcontentdemo").printThis({
+            debug: false,
+            importCSS: true,
+            importStyle: true,
+            printContainer: true,
+            //loadCSS: "/Content/Themes/Default/style.css",
+            pageTitle: "",
+            removeInline: false,
+            printDelay: 333,
+            header: null,
+            formValues: true
+        });
+    };
 
-    //去除空格，逗号等符号
     function getallname(str) {
-    	//var temp = new Array()
     	var temp = str.split(/[\\n\s+,，；;]/g);
 		var temp1 = temp.join(" ")
-		var temp2 = temp1.trim(); //去掉空白(/(^\s*)|(\s*$)/g, "");
+		var temp2 = temp1.trim();
 		var temp3 = temp2.split(' ')
 
 		for (var i = 0; i < temp.length; i++) {
 			console.log(i,temp[i])
 			if (temp[i] == "" || temp[i] == null || temp[i].length == 0) {
-				// 删除数组中空值
 				temp.splice(i, 1);
 				i--;
 			}
 		}
-		//console.log(temp);
 		return temp
 	}
-
 </script> 
 </body>
 </html>
