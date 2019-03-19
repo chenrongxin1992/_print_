@@ -144,6 +144,9 @@ layui.use(['layer', 'form'], function(){
   	if($('.printcontentdemo')){
   		$('#printcontent').empty()
   	}
+  	if($('#printcontent').css('display')=='none'){
+  		$('#printcontent').css('display','')
+  	}
   	var allname_arr = getallname(data.field.multiname)
     let cishu = data.field.cishu,
     	guige = (data.field.type).split('*')
@@ -183,6 +186,9 @@ layui.use(['layer', 'form'], function(){
   form.on('submit(print)', function(data){
   	if($('.printcontentdemo')){
   		$('#printcontent').empty()
+  	}
+  	if($('#printcontent').css('display')=='none'){
+  		$('#printcontent').css('display','')
   	}
   	var allname_arr = getallname(data.field.multiname)
     let cishu = data.field.cishu,
