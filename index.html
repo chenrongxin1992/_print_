@@ -16,16 +16,22 @@
 		color: #950040;
 		margin:10px auto;
 	}
+	#printcontent{
+		/*height: 297mm;
+		overflow: scroll;*/
+	}
 	.printcontentdemo{
     	font-family: STXinwei;
     	text-align: center;
     	background-color: #79C48C;
     	/*border: 5px solid black;*/
-    	font-size: 120px;
+    	font-size: 140px;
     	/*line-height: 74mm;*/
-    	box-sizing: border-box;
-    	border-bottom: 1px solid black;
-    	position: relative;
+    	/*box-sizing: border-box;*/
+    	/*border: 1px solid black;*/
+    	/*position: relative;*/
+    	background: url('./img/test.png');
+    	background-size:150mm 74.25mm;
 	}
 	.layui-elem-quote{
 		border-left: 5px solid #950040;
@@ -35,13 +41,12 @@
 		background-color:#950040;
 	}
 	.pname{
-		position:absolute;
+		height:74.25mm;
+		line-height: 101mm;
+		/*position:absolute;*/
 		/*right:10px;*/
-		bottom: 15mm;
-		left: 0;
-    	right: 0;
-    	box-sizing: border-box;
-    	border-bottom: 1px solid black;
+		/*height: 74.25mm;
+    	line-height: 74.25mm;*/
 	}
 	@media print {
 	  @page {
@@ -113,6 +118,7 @@
 <script src="./js/jquery.min.js"></script>
 <script src="./js/layui.js"></script>
 <script src="./js/printThis.js"></script>
+<script src="./js/jQuery.print.js"></script>
 <script>
 layui.use(['layer', 'form'], function(){
   var layer = layui.layer
@@ -196,22 +202,23 @@ layui.use(['layer', 'form'], function(){
     console.log('finalarr',finalarr)
     
     for(let i=0;i<finalarr.length;i++){
-    	let str = "<div class='layui-row'><div class='layui-col-lg12'>"+
-    	"<div class='printcontentdemo'><div class='pname'>"+finalarr[i]+"</div></div></div></div>"
+    	let str = "<div class='printcontentdemo'><div class='pname'>"+finalarr[i]+"</div></div>"
 	    $("#printcontent").append(str);
 
     }
     $('.printcontent').trigger('create')
     $('.printcontentdemo').css('width',chang+'mm')
-    $('.printcontentdemo').css('height',79+'mm')
+    $('.printcontentdemo').css('height',74.25+'mm')
     $('.printcontentdemo').css('margin','0px auto')
+    //return false
+    //myprint()
 	Preview()
 	return false
   })
 });
 
     function Preview() {
-        $(".printcontentdemo").printThis({
+        $("#printcontent").printThis({
             debug: false,
             importCSS: true,
             importStyle: true,
