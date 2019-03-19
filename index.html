@@ -17,21 +17,20 @@
 		margin:10px auto;
 	}
 	#printcontent{
-		/*height: 297mm;
-		overflow: scroll;*/
 	}
 	.printcontentdemo{
     	font-family: STXinwei;
     	text-align: center;
     	background-color: #79C48C;
-    	/*border: 5px solid black;*/
     	font-size: 140px;
-    	/*line-height: 74mm;*/
-    	/*box-sizing: border-box;*/
-    	/*border: 1px solid black;*/
-    	/*position: relative;*/
     	background: url('./img/test.png');
     	background-size:160mm 79.25mm;
+	}
+	.printcontentdemo1{
+    	font-family: STXinwei;
+    	text-align: center;
+    	background-color: #79C48C;
+    	font-size: 140px;
 	}
 	.layui-elem-quote{
 		border-left: 5px solid #950040;
@@ -42,12 +41,9 @@
 	}
 	.pname{
 		padding-top: 40mm;
-		/*height:74.25mm;
-		line-height: 101mm;*/
-		/*position:absolute;*/
-		/*right:10px;*/
-		/*height: 74.25mm;
-    	line-height: 74.25mm;*/
+	}
+	.pnameyulan{
+		padding-top: 30mm;
 	}
 	@media print {
 	  @page {
@@ -88,7 +84,7 @@
 		    <div class="layui-input-inline">
 		      <select name="type" lay-filter="type">
 		        <option value="160*297" selected="">150*297(校办纸)</option>
-		        <option value="210*297">210*297(A4纸)</option>
+		        <option value="224*297">210*297(A4纸)</option>
 		      </select>
 		    </div>
 		</div>
@@ -136,28 +132,28 @@ layui.use(['layer', 'form'], function(){
   form.on('select(cishu)', function(data){
   	console.log(data)
   	$('#printcontent').empty()
+  	$('#printcontent').css('display','')
   })
   form.on('select(type)', function(data){
   	console.log(data)
   	$('#printcontent').empty()
+  	$('#printcontent').css('display','')
   })
-  //打印预览
-  form.on('submit(preview)', function(data){
 
+  form.on('submit(preview)', function(data){
   	if($('.printcontentdemo')){
   		$('#printcontent').empty()
   	}
-    var allname_arr = getallname(data.field.multiname)
+  	var allname_arr = getallname(data.field.multiname)
     let cishu = data.field.cishu,
     	guige = (data.field.type).split('*')
     let chang = guige[0],
     	kuan = guige[1]
-    console.log(allname_arr)
-    console.log('总共输入',allname_arr.length,'个姓名')
-    console.log('重复次数',data.field.cishu)
-    console.log('规格',data.field.type)
+    // console.log(allname_arr)
+    // console.log('总共输入',allname_arr.length,'个姓名')
+    // console.log('重复次数',data.field.cishu)
+    // console.log('规格',data.field.type)
 
-    //生成要打印的内容,一个名字一行
     let finalarr = new Array()
     for(let i=0;i<allname_arr.length;i++){
     	for(let j=0;j<cishu;j++){
@@ -165,18 +161,23 @@ layui.use(['layer', 'form'], function(){
     	}
     }
     console.log('finalarr',finalarr)
-    
+    let tmpclass = ''
+    if(chang == '160'){
+    	tmpclass = 'printcontentdemo'
+    }
+    else{
+    	tmpclass = 'printcontentdemo1'
+    }
     for(let i=0;i<finalarr.length;i++){
-    	let str = "<div class='layui-row'><div class='layui-col-lg12'>"+
-    	"<div class='printcontentdemo'>"+finalarr[i]+"</div></div></div>"
+    	let str = "<div class='" + tmpclass + "'><div class='pnameyulan'>"+finalarr[i]+"</div></div>"
 	    $("#printcontent").append(str);
 
     }
     $('.printcontent').trigger('create')
-    $('.printcontentdemo').css('width',chang+'mm')
-    $('.printcontentdemo').css('height',74+'mm')
-    $('.printcontentdemo').css('margin','0px auto')
-    return false
+    $('.' + tmpclass ).css('width',chang+'mm')
+    $('.' + tmpclass ).css('height',74.25+'mm')
+    $('.' + tmpclass ).css('margin','0px auto')
+	return false
   });
 
   form.on('submit(print)', function(data){
@@ -188,12 +189,11 @@ layui.use(['layer', 'form'], function(){
     	guige = (data.field.type).split('*')
     let chang = guige[0],
     	kuan = guige[1]
-    console.log(allname_arr)
-    console.log('总共输入',allname_arr.length,'个姓名')
-    console.log('重复次数',data.field.cishu)
-    console.log('规格',data.field.type)
+    // console.log(allname_arr)
+    // console.log('总共输入',allname_arr.length,'个姓名')
+    // console.log('重复次数',data.field.cishu)
+    // console.log('规格',data.field.type)
 
-    //生成要打印的内容,一个名字一行
     let finalarr = new Array()
     for(let i=0;i<allname_arr.length;i++){
     	for(let j=0;j<cishu;j++){
@@ -202,23 +202,31 @@ layui.use(['layer', 'form'], function(){
     }
     console.log('finalarr',finalarr)
     
+    $('#printcontent').css('display','none')
     for(let i=0;i<finalarr.length;i++){
     	let str = "<div class='printcontentdemo'><div class='pname'>"+finalarr[i]+"</div></div>"
 	    $("#printcontent").append(str);
-
     }
     $('.printcontent').trigger('create')
     $('.printcontentdemo').css('width',chang+'mm')
     $('.printcontentdemo').css('height',74.25+'mm')
     $('.printcontentdemo').css('margin','0px auto')
-    //return false
-    //myprint()
+    layer.msg('请稍后', {
+	  icon: 16
+	  ,shade: 0.9
+	  ,time:1000
+	  ,shadeClose:true
+	});
 	Preview()
+	setTimeout(function(){
+        $('#printcontent').css('display','none')
+    },500)
 	return false
   })
 });
 
     function Preview() {
+		$('#printcontent').css('display','')
         $("#printcontent").printThis({
             debug: false,
             importCSS: true,
