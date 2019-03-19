@@ -22,7 +22,7 @@
     	background-color: #79C48C;
     	/*border: 5px solid black;*/
     	font-size: 120px;
-    	line-height: 74mm;
+    	/*line-height: 74mm;*/
     	box-sizing: border-box;
     	border-bottom: 1px solid black;
     	position: relative;
@@ -37,9 +37,11 @@
 	.pname{
 		position:absolute;
 		/*right:10px;*/
-		bottom:-30px;
+		bottom: 15mm;
 		left: 0;
     	right: 0;
+    	box-sizing: border-box;
+    	border-bottom: 1px solid black;
 	}
 	@media print {
 	  @page {
@@ -201,7 +203,7 @@ layui.use(['layer', 'form'], function(){
     }
     $('.printcontent').trigger('create')
     $('.printcontentdemo').css('width',chang+'mm')
-    $('.printcontentdemo').css('height',74+'mm')
+    $('.printcontentdemo').css('height',79+'mm')
     $('.printcontentdemo').css('margin','0px auto')
 	Preview()
 	return false
