@@ -209,17 +209,27 @@ layui.use(['layer', 'form'], function(){
     console.log('finalarr',finalarr)
     
     $('#printcontent').css('display','none')
-    for(let i=0;i<finalarr.length;i++){
-    	let str = "<div class='printcontentdemo'><div class='pname'>"+finalarr[i]+"</div></div>"
-	    $("#printcontent").append(str);
+    let tmpclass = ''
+    if(chang == '160'){
+    	tmpclass = 'printcontentdemo'
     }
+    else{
+    	tmpclass = 'printcontentdemo1'
+    }
+    for(let i=0;i<finalarr.length;i++){
+    	let str = "<div class='" + tmpclass + "'><div class='pname'>"+finalarr[i]+"</div></div>"
+	    $("#printcontent").append(str);
+
+    }
+    $("#printcontent").css('margin-top','550px');
     $('.printcontent').trigger('create')
-    $('.printcontentdemo').css('width',chang+'mm')
-    $('.printcontentdemo').css('height',74.25+'mm')
-    $('.printcontentdemo').css('margin','0px auto')
+    $('.' + tmpclass ).css('width',chang+'mm')
+    $('.' + tmpclass ).css('height',74.25+'mm')
+    $('.' + tmpclass ).css('margin','0px auto')
+
     layer.msg('请稍后', {
 	  icon: 16
-	  ,shade: 0.9
+	  ,shade: 1
 	  ,time:1000
 	  ,shadeClose:true
 	});
@@ -233,6 +243,7 @@ layui.use(['layer', 'form'], function(){
 
     function Preview() {
 		$('#printcontent').css('display','')
+		$("#printcontent").css('margin-top','');
         $("#printcontent").printThis({
             debug: false,
             importCSS: true,
