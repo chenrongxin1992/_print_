@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>座位牌打印</title>
+  <meta name="description" content="座位牌打印系统">
+  <meta name="author" content="CRX">
+  <title>座位牌打印系统</title>
   <link rel="shortcut icon" href="./favicon.ico">
   <link rel="stylesheet" href="./css/layui.css">
   <link rel="stylesheet" href="./css/modules/layui-icon-extend/iconfont.css">
@@ -21,7 +23,7 @@
 	.printcontentdemo{
     	font-family: STXinwei;
     	text-align: center;
-    	background-color: #79C48C;
+    	background-color: #D95166;
     	font-size: 140px;
     	background: url('./img/test.png');
     	background-size:160mm 79.25mm;
@@ -29,7 +31,7 @@
 	.printcontentdemo1{
     	font-family: STXinwei;
     	text-align: center;
-    	background-color: #79C48C;
+    	background-color: #D95166;
     	font-size: 140px;
 	}
 	.layui-elem-quote{
@@ -147,15 +149,11 @@ layui.use(['layer', 'form'], function(){
   	if($('#printcontent').css('display')=='none'){
   		$('#printcontent').css('display','')
   	}
-  	var allname_arr = getallname(data.field.multiname)
+  	let allname_arr = getallname(data.field.multiname)
     let cishu = data.field.cishu,
     	guige = (data.field.type).split('*')
     let chang = guige[0],
     	kuan = guige[1]
-    // console.log(allname_arr)
-    // console.log('总共输入',allname_arr.length,'个姓名')
-    // console.log('重复次数',data.field.cishu)
-    // console.log('规格',data.field.type)
 
     let finalarr = new Array()
     for(let i=0;i<allname_arr.length;i++){
@@ -172,7 +170,7 @@ layui.use(['layer', 'form'], function(){
     	tmpclass = 'printcontentdemo1'
     }
     for(let i=0;i<finalarr.length;i++){
-    	let str = "<div class='" + tmpclass + "'><div class='pnameyulan'>"+finalarr[i]+"</div></div>"
+    	let str = "<div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='pnameyulan'>"+finalarr[i]+"</div></div></div></div>"
 	    $("#printcontent").append(str);
 
     }
@@ -190,15 +188,11 @@ layui.use(['layer', 'form'], function(){
   	if($('#printcontent').css('display')=='none'){
   		$('#printcontent').css('display','')
   	}
-  	var allname_arr = getallname(data.field.multiname)
+  	let allname_arr = getallname(data.field.multiname)
     let cishu = data.field.cishu,
     	guige = (data.field.type).split('*')
     let chang = guige[0],
     	kuan = guige[1]
-    // console.log(allname_arr)
-    // console.log('总共输入',allname_arr.length,'个姓名')
-    // console.log('重复次数',data.field.cishu)
-    // console.log('规格',data.field.type)
 
     let finalarr = new Array()
     for(let i=0;i<allname_arr.length;i++){
@@ -217,7 +211,7 @@ layui.use(['layer', 'form'], function(){
     	tmpclass = 'printcontentdemo1'
     }
     for(let i=0;i<finalarr.length;i++){
-    	let str = "<div class='" + tmpclass + "'><div class='pname'>"+finalarr[i]+"</div></div>"
+    	let str = " <div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='pname'>"+finalarr[i]+"</div></div></div></div>"
 	    $("#printcontent").append(str);
 
     }
@@ -259,12 +253,12 @@ layui.use(['layer', 'form'], function(){
     };
 
     function getallname(str) {
-    	var temp = str.split(/[\\n\s+,，；;]/g);
-		var temp1 = temp.join(" ")
-		var temp2 = temp1.trim();
-		var temp3 = temp2.split(' ')
+    	let temp = str.split(/[\\n\s+,，；;]/g),
+		    temp1 = temp.join(" "),
+		    temp2 = temp1.trim(),
+		    temp3 = temp2.split(' ')
 
-		for (var i = 0; i < temp.length; i++) {
+		for (let i = 0; i < temp.length; i++) {
 			console.log(i,temp[i])
 			if (temp[i] == "" || temp[i] == null || temp[i].length == 0) {
 				temp.splice(i, 1);
