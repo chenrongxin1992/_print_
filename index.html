@@ -20,19 +20,27 @@
 	}
 	#printcontent{
 	}
+	/*预览使用*/
 	.printcontentdemo{
+		
     	font-family: STXinwei;
     	text-align: center;
     	background-color: #D95166;
-    	font-size: 140px;
-    	background: url('./img/test.png');
-    	background-size:160mm 79.25mm;
+    	font-size: 175px;
+    	background-image:url(./img/newtest1.png); background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
+	}
+	.printcontentdemo2{
+    	font-family: STXinwei;
+    	text-align: center;
+    	background-color: #D95166;
+    	font-size: 185px;
+    	background-image:url(./img/newtest2.png); background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
 	}
 	.printcontentdemo1{
     	font-family: STXinwei;
     	text-align: center;
     	background-color: #D95166;
-    	font-size: 140px;
+    	font-size: 175px;
 	}
 	.layui-elem-quote{
 		border-left: 5px solid #950040;
@@ -42,10 +50,39 @@
 		background-color:#950040;
 	}
 	.pname{
+		transform:rotate(180deg);
+		-ms-transform:rotate(180deg); 	/* IE 9 */
+		-moz-transform:rotate(180deg); 	/* Firefox */
+		-webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+		-o-transform:rotate(180deg); 	/* Opera */
+		padding-bottom: 30mm;
+	}
+	.pname2{
 		padding-top: 40mm;
 	}
 	.pnameyulan{
-		padding-top: 30mm;
+		transform:rotate(180deg);
+		-ms-transform:rotate(180deg); 	/* IE 9 */
+		-moz-transform:rotate(180deg); 	/* Firefox */
+		-webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+		-o-transform:rotate(180deg); 	/* Opera */
+		/*padding-top: 10mm;*/
+		padding-bottom: 5mm;
+	}
+	.pnameyulan2{
+		padding-top: 20mm;
+	}
+	.gap{
+		height: 87mm;
+	}
+	.layui-layer-molv .layui-layer-title{
+		background: #950040!important;
+	    color: #fff;
+	    border: none;
+	}
+	.layui-layer-molv .layui-layer-btn a {
+		background: #950040!important;
+    	border-color: #950040!important;
 	}
 	@media print {
 	  @page {
@@ -57,7 +94,7 @@
 <body>
  
 	<div class="layui-container">  
-	  <h1 class="h1title">深圳大学校长办公室座位牌打印系统</h1>
+	  <h1 class="h1title">深圳大学座位牌打印系统</h1>
 
 	  <blockquote class="layui-elem-quote layui-text">
 		  卡片信息
@@ -85,7 +122,7 @@
 			<label class="layui-form-label">规格</label>
 		    <div class="layui-input-inline">
 		      <select name="type" lay-filter="type">
-		        <option value="160*297" selected="">150*297(校办纸)</option>
+		        <option value="190*202" selected="">180*202(名牌纸)</option>
 		        <option value="224*297">210*297(A4纸)</option>
 		      </select>
 		    </div>
@@ -123,6 +160,12 @@ layui.use(['layer', 'form'], function(){
   var layer = layui.layer
   ,form = layui.form;
   
+  //提示浏览器
+
+	layer.alert('系统需使用较新的浏览器内核，若您使用360浏览器，请切换到“急速模式”。', {
+	  skin: 'layui-layer-molv' //样式类名
+	  ,closeBtn: 0
+	});
   //自定义验证规则
   form.verify({
     name: function(value){
@@ -162,22 +205,34 @@ layui.use(['layer', 'form'], function(){
     	}
     }
     console.log('finalarr',finalarr)
-    let tmpclass = ''
-    if(chang == '160'){
+    let tmpclass = '',tmpnameyulan = ''
+    if(chang == '190'){
     	tmpclass = 'printcontentdemo'
     }
     else{
     	tmpclass = 'printcontentdemo1'
     }
     for(let i=0;i<finalarr.length;i++){
-    	let str = "<div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='pnameyulan'>"+finalarr[i]+"</div></div></div></div>"
+    	if(i%2==1){
+    		tmpclass = 'printcontentdemo2'
+    		tmpnameyulan = 'pnameyulan2'
+    	}else{
+    		tmpclass = 'printcontentdemo'
+    		tmpnameyulan = 'pnameyulan'
+    	}
+    	let str = "<div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='"+tmpnameyulan+"'>"+finalarr[i]+"</div></div></div></div>"
+    	//return false
 	    $("#printcontent").append(str);
-
     }
-    $('.printcontent').trigger('create')
-    $('.' + tmpclass ).css('width',chang+'mm')
-    $('.' + tmpclass ).css('height',74.25+'mm')
-    $('.' + tmpclass ).css('margin','0px auto')
+    //return false
+    	$('.printcontent').trigger('create')
+	    $('.printcontentdemo'  ).css('width',chang+'mm')
+	    $('.printcontentdemo' ).css('height',74.25+'mm')
+	    $('.printcontentdemo'  ).css('margin','0px auto')
+	    $('.printcontentdemo2'  ).css('width',chang+'mm')
+	    $('.printcontentdemo2' ).css('height',74.25+'mm')
+	    $('.printcontentdemo2'  ).css('margin','0px auto')
+    
 	return false
   });
 
@@ -203,23 +258,41 @@ layui.use(['layer', 'form'], function(){
     console.log('finalarr',finalarr)
     
     $('#printcontent').css('display','none')
-    let tmpclass = ''
-    if(chang == '160'){
+    let tmpclass = '',tmpnameyulan='',tmpname2=''
+    if(chang == '190'){
     	tmpclass = 'printcontentdemo'
+    	chang = '195'
     }
     else{
     	tmpclass = 'printcontentdemo1'
     }
     for(let i=0;i<finalarr.length;i++){
-    	let str = " <div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='pname'>"+finalarr[i]+"</div></div></div></div>"
+    	if(i%2==1){
+    		tmpclass = 'printcontentdemo2'
+    		tmpnameyulan = 'pnameyulan2'
+    		tmpname2 = 'pname2'
+
+    	}else{
+    		tmpclass = 'printcontentdemo'
+    		tmpnameyulan = 'pnameyulan'
+    		tmpname2 = 'pname'
+    	}
+    	let str = " <div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='"+tmpname2+"'>"+finalarr[i]+"</div></div></div></div>"
+	    if(i%2==0 && i!=0){
+	    	let str1 = " <div class='layui-row'><div class='layui-col-lg12'><div class='gap'></div></div></div>"
+	    	$("#printcontent").append(str1);
+	    }
 	    $("#printcontent").append(str);
 
     }
     $("#printcontent").css('margin-top','550px');
     $('.printcontent').trigger('create')
-    $('.' + tmpclass ).css('width',chang+'mm')
-    $('.' + tmpclass ).css('height',74.25+'mm')
-    $('.' + tmpclass ).css('margin','0px auto')
+    $('.printcontentdemo' ).css('width',chang+'mm')
+    $('.printcontentdemo' ).css('height',105+'mm')
+    $('.printcontentdemo').css('margin','0px auto')
+    $('.printcontentdemo2'  ).css('width',chang+'mm')
+	$('.printcontentdemo2' ).css('height',105+'mm')
+	$('.printcontentdemo2'  ).css('margin','0px auto')
 
     layer.msg('请稍后', {
 	  icon: 16
@@ -228,6 +301,7 @@ layui.use(['layer', 'form'], function(){
 	  ,shadeClose:true
 	});
 	Preview()
+	//return false
 	setTimeout(function(){
         $('#printcontent').css('display','none')
     },500)
@@ -238,6 +312,7 @@ layui.use(['layer', 'form'], function(){
     function Preview() {
 		$('#printcontent').css('display','')
 		$("#printcontent").css('margin-top','');
+		//return false
         $("#printcontent").printThis({
             debug: false,
             importCSS: true,
@@ -253,7 +328,8 @@ layui.use(['layer', 'form'], function(){
     };
 
     function getallname(str) {
-    	let temp = str.split(/[\\n\s+,，；;]/g),
+    	let temp = str.split(/[\\n+,，；;]/g),
+    	//let temp = str.split(/[\\n\s+,，；;]/g),
 		    temp1 = temp.join(" "),
 		    temp2 = temp1.trim(),
 		    temp3 = temp2.split(' ')
