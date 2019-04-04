@@ -60,6 +60,9 @@
 	.pname2{
 		padding-top: 40mm;
 	}
+	.pname_a4{
+		padding-top: 20mm;
+	}
 	.pnameyulan{
 		transform:rotate(180deg);
 		-ms-transform:rotate(180deg); 	/* IE 9 */
@@ -261,7 +264,6 @@ layui.use(['layer', 'form'], function(){
     let tmpclass = '',tmpnameyulan='',tmpname2=''
     if(chang == '190'){
     	tmpclass = 'printcontentdemo'
-    	chang = '195'
     }
     else{
     	tmpclass = 'printcontentdemo1'
@@ -277,22 +279,39 @@ layui.use(['layer', 'form'], function(){
     		tmpnameyulan = 'pnameyulan'
     		tmpname2 = 'pname'
     	}
-    	let str = " <div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='"+tmpname2+"'>"+finalarr[i]+"</div></div></div></div>"
-	    if(i%2==0 && i!=0){
-	    	let str1 = " <div class='layui-row'><div class='layui-col-lg12'><div class='gap'></div></div></div>"
-	    	$("#printcontent").append(str1);
-	    }
-	    $("#printcontent").append(str);
-
+    	if(chang == '190'){
+    		let str = " <div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='"+tmpname2+"'>"+finalarr[i]+"</div></div></div></div>"
+		    if(i%2==0 && i!=0){
+		    	let str1 = " <div class='layui-row'><div class='layui-col-lg12'><div class='gap'></div></div></div>"
+		    	$("#printcontent").append(str1);
+		    }
+		    $("#printcontent").append(str);
+    	}else{
+    		let str = " <div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='pname_a4'>"+finalarr[i]+"</div></div></div></div>"
+	    	$("#printcontent").append(str);
+    	}
     }
-    $("#printcontent").css('margin-top','550px');
-    $('.printcontent').trigger('create')
-    $('.printcontentdemo' ).css('width',chang+'mm')
-    $('.printcontentdemo' ).css('height',105+'mm')
-    $('.printcontentdemo').css('margin','0px auto')
-    $('.printcontentdemo2'  ).css('width',chang+'mm')
-	$('.printcontentdemo2' ).css('height',105+'mm')
-	$('.printcontentdemo2'  ).css('margin','0px auto')
+    if(chang=='190'){
+    	chang = '195'
+	    $("#printcontent").css('margin-top','550px');
+	    $('.printcontent').trigger('create')
+	    $('.printcontentdemo' ).css('width',chang+'mm')
+	    $('.printcontentdemo' ).css('height',105+'mm')
+	    $('.printcontentdemo').css('margin','0px auto')
+	    $('.printcontentdemo2'  ).css('width',chang+'mm')
+		$('.printcontentdemo2' ).css('height',105+'mm')
+		$('.printcontentdemo2'  ).css('margin','0px auto')
+    }else{
+    	$("#printcontent").css('margin-top','550px');
+	    $('.printcontent').trigger('create')
+	    $('.printcontentdemo' ).css('width',chang+'mm')
+	    $('.printcontentdemo' ).css('height',74.25+'mm')
+	    $('.printcontentdemo').css('margin','0px auto')
+	    $('.printcontentdemo2'  ).css('width',chang+'mm')
+		$('.printcontentdemo2' ).css('height',74.25+'mm')
+		$('.printcontentdemo2'  ).css('margin','0px auto')
+    }
+    
 
     layer.msg('请稍后', {
 	  icon: 16
