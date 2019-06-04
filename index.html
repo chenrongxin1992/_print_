@@ -426,8 +426,9 @@ layui.use(['layer', 'form'], function(){
     };
 
     function getallname(str) {
-    	let temp = str.split(/[\\n+,，；;]/g),
-    	//let temp = str.split(/[\\n\s+,，；;]/g),
+    	let temp = str.match(/[\u4e00-\u9fa5]*[a-zA-Z +]*|[\\n+,，；;]*$/g),
+    	//let temp = str.split(/[\\n+,，；;]/g),//[\u4e00-\u9fa5]*[a-zA-Z +]*|[\\n+,，；;]*$试试这条吧
+    	//let temp = str.split(/[\\n\s+,，；;]/g),[a-zA-Z]*$,[a-zA-Z +]*|[\\n+,，；;]*|$
 		    temp1 = temp.join(" "),
 		    temp2 = temp1.trim(),
 		    temp3 = temp2.split(' ')
