@@ -223,9 +223,41 @@ layui.use(['layer', 'form'], function(){
     		tmpclass = 'printcontentdemo'
     		tmpnameyulan = 'pnameyulan'
     	}
-    	let str = "<div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='"+tmpnameyulan+"'>"+finalarr[i]+"</div></div></div></div>"
+    	//加一个区分的class,pt,ptt,对应printcontentdemo和printcontentdemo2,pn,pnn
+    	let str = "<div class='layui-row'><div class='layui-col-lg12'><div class='pt" + i + ' ' + tmpclass + "'><div class='pn"+i + ' ' +tmpnameyulan+"'>"+finalarr[i]+"</div></div></div></div>"
     	//return false
+    	
 	    $("#printcontent").append(str);
+	    //文字个数大于3小于6，调整大小和位置
+		    if(finalarr[i].length>3 && finalarr[i].length<=6){
+		    	console.log('名字',finalarr[i],finalarr[i].length)
+		    	$('.pt' + i).css("font-size", '110px')
+		    	$('.pn' + i).css("padding-bottom", '18mm')
+		    	// $('.printcontentdemo2').css("font-size", '110px')
+		    	// $('.pnameyulan2').css("padding-top", '35mm')
+		    }
+		    if(finalarr[i].length>6 && finalarr[i].length<=11){
+		    	console.log('名字',finalarr[i],finalarr[i].length,'ddd')
+		    	$('.pt' + i).css("font-size", '60px')
+		    	$('.pn' + i).css("padding-bottom", '22mm')
+		    	if(i%2==1){
+		    		$('.pt' + i).css("font-size", '60px')
+		    		$('.pn' + i).css("padding-top", '35mm')
+		    	}
+		    	// $('.printcontentdemo2').css("font-size", '60px')
+		    	// $('.pnameyulan2').css("padding-top", '35mm')
+		    }
+		    if(finalarr[i].length>11){
+		    	console.log('名字',finalarr[i],finalarr[i].length)
+		    	if(i%2==1){
+		    		$('.pt' + i).css("font-size", '53px')
+		    		$('.pn' + i).css("padding-top", '35mm')
+		    	}
+		    	$('.pt' + i).css("font-size", '53px')
+		    	$('.pn' + i).css("padding-bottom", '25mm')
+		    	// $('.printcontentdemo2').css("font-size", '53px')
+		    	// $('.pnameyulan2').css("padding-top", '35mm')
+		    }
     }
     //return false
     	$('.printcontent').trigger('create')
@@ -280,12 +312,59 @@ layui.use(['layer', 'form'], function(){
     		tmpname2 = 'pname'
     	}
     	if(chang == '190'){
-    		let str = " <div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='"+tmpname2+"'>"+finalarr[i]+"</div></div></div></div>"
+    		let str = " <div class='layui-row'><div class='layui-col-lg12'><div class='pt" + i + ' ' + tmpclass + "'><div class='pn"+i + ' ' +tmpname2+"'>"+finalarr[i]+"</div></div></div></div>"
 		    if(i%2==0 && i!=0){
-		    	let str1 = " <div class='layui-row'><div class='layui-col-lg12'><div class='gap'></div></div></div>"
+		    	let str1 = " <div class='layui-row'><div class='layui-col-lg12'><div class='gap gap" + i + "'></div></div></div>"
 		    	$("#printcontent").append(str1);
 		    }
+		    
 		    $("#printcontent").append(str);
+		    //文字个数大于3小于6，调整大小和位置
+		    if(finalarr[i].length>3 && finalarr[i].length<=6){
+		    	console.log('名字',finalarr[i],finalarr[i].length)
+		    	$('.pt' + i).css("font-size", '110px')
+		    	$('.pn' + i).css("padding-bottom", '38mm')
+		    	if(i%2==0){
+		    		$('.gap' + i).css("height", '110mm')
+		    	}
+		    	//$('.printcontentdemo').css("font-size", '110px')
+		    	//$('.pnameyulan').css("padding-bottom", '18mm')
+		    	//$('.printcontentdemo2').css("font-size", '110px')
+		    	//$('.pnameyulan2').css("padding-top", '35mm')
+		    }
+		    if(finalarr[i].length>6 && finalarr[i].length<=11){
+		    	console.log('名字',finalarr[i],finalarr[i].length,'ddd')
+		    	$('.pt' + i).css("font-size", '60px')
+		    	$('.pn' + i).css("padding-bottom", '50mm')
+		    	if(i%2==1){
+		    		$('.pt' + i).css("font-size", '60px')
+		    		$('.pn' + i).css("padding-top", '45mm')
+		    	}
+		    	if(i%2==0){
+		    		$('.gap' + i).css("height", '110mm')
+		    	}
+		    	//$('.printcontentdemo').css("font-size", '60px')
+		    	//$('.pnameyulan').css("padding-bottom", '22mm')
+		    	//$('.printcontentdemo2').css("font-size", '60px')
+		    	//$('.pnameyulan2').css("padding-top", '35mm')
+		    }
+		    if(finalarr[i].length>11){
+		    	console.log('名字',finalarr[i],finalarr[i].length)
+		    	if(i%2==1){
+		    		$('.pt' + i).css("font-size", '53px')
+		    		$('.pn' + i).css("padding-top", '60mm')
+		    	}
+		    	if(i%2==0){
+		    		$('.gap' + i).css("height", '110mm')
+		    	}
+		    	$('.pt' + i).css("font-size", '53px')
+		    	$('.pn' + i).css("padding-bottom", '50mm')
+		    	// $('.printcontentdemo').css("font-size", '53px')
+		    	// $('.pnameyulan').css("padding-bottom", '25mm')
+		    	// $('.printcontentdemo2').css("font-size", '53px')
+		    	// $('.pnameyulan2').css("padding-top", '35mm')
+		    }
+
     	}else{
     		let str = " <div class='layui-row'><div class='layui-col-lg12'><div class='" + tmpclass + "'><div class='pname_a4'>"+finalarr[i]+"</div></div></div></div>"
 	    	$("#printcontent").append(str);
@@ -312,7 +391,7 @@ layui.use(['layer', 'form'], function(){
 		$('.printcontentdemo2'  ).css('margin','0px auto')
     }
     
-
+    //return false
     layer.msg('请稍后', {
 	  icon: 16
 	  ,shade: 1
